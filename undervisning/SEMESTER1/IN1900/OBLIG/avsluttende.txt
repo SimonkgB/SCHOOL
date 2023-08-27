@@ -1,0 +1,11 @@
+
+test_SEIR()
+
+b)
+def solve _SEIR(t,dt, S_0,E2_0)
+    pass
+
+
+c)
+def plot_Seir(u,t)
+    pass

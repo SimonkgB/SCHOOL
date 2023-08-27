@@ -1,0 +1,4 @@
+elements_10 = {1: "-", 2: "Helium", 3: "Lithium",
+4: "Beryllium", 5: "Boron", 6: "Carbon",
+7: "Nitrogen", 8: "-",
+9: "Fluorine", 10: "Neon"}{'Hydrogen': 1, 'Oxygen': 4}{1: 'Hydrogen', 4: 'Oxygen'}
