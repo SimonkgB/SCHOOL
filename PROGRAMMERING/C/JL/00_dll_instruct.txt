@@ -1,0 +1,20 @@
+##########################################
+# how to create shared library using gcc
+##########################################
+
+# file extensions:
+# .dll for windows dynamic-link library
+# .so for linux shared object
+# .dylib for macOS dynamically linked library
+
+# windows :
+gcc -fpic -shared filename.c -о libfilename.dll
+
+# gcc flags:
+# -fpic or -fPIC gcc flags for position-independent code
+# (try -fpic 1st. if error, then use -fPIC) 
+
+
+# en fix for error er fra .c fila så:
+# run: gcc -c filename.c
+# så: gcc -shared -o libfilename.dll filename.o
