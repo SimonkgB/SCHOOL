@@ -8,13 +8,19 @@ import matplotlib.animation as animation
 
 box_length =10e-6  # Length of the cubic box in meters
 temperature =2e3   # Temperature in Kelvin
-num_particles =100 # number of particles
+num_particles = 2000 # number of particles
 boltzmann_constant =scp.Boltzmann  # Boltzmann constant in J/K
 particle_mass =1e-28   # Mass of a particle in kg
 
 #####################
 # TIME
-time_step =10e-9/2000 # Number of time steps for the simulation
+num_time_steps = 2000
+time_step =10e-9/num_time_steps # Number of time steps for the simulation
+
+
+####################
+# STORAGE
+escaped_velocities = []
 
 ######################
 # INITIAL VELOCITY FUNCTION
@@ -33,6 +39,7 @@ def initialize_velocity(temperature, boltzmann_constant, particle_mass):    # In
     v_z =v_avg*np.cos(theta)
     return np.array([v_x, v_y, v_z])
 
+
 #########################
 # BONDRARY CONDITIONS
 def boundary_conditions(position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, particle_mass):  # Apply boundary conditions and check for particles falling into the hole
@@ -48,6 +55,7 @@ def boundary_conditions(position, velocity, box_length, hole_radius, hole_center
             position[i] = np.array([box_length/2, box_length/2, box_length])
             velocity[i] =initialize_velocity(temperature, boltzmann_constant, particle_mass)
             num +=1    #incrment particle counter
+            escaped_velocities.append(velocity[i])  #storing velocities of particles escaping
     return position, velocity, num
 
 #################################
@@ -93,7 +101,7 @@ sc2 =ax2.scatter(position[:, 0], position[:, 1], s=20)
 ax2.set_xlim(0, box_length)
 ax2.set_ylim(0, box_length)
 
-def update(frame, position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, particle_mass):
+def update(frame, position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, particle_mass):    # fix? lær deg animations din tulling, må være en bedre methode (raskere)
     
 
     position, velocity, _ =boundary_conditions(position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, particle_mass)# Update positions and apply boundary conditions
@@ -111,4 +119,45 @@ plt.tight_layout()
 plt.show()
 
 # HOW MANY PARTICLES IN HOLE
-print(f"Total number of particles that fell into the hole: {num_particles_in_hole}")    # i can use this number to "create" a force which will propell teh rocket
+print(f"Total number of particles in hole: {num_particles_in_hole}")    # i can use this number to "create" a force which will propell teh rocket
+
+
+# Print the velocities of particles that escaped
+
+##########################
+#NEW DEFINITIONS FOR STUFF
+rocket_mass= 10
+hydrogen2_mass= 3.34e-27
+escaped_velocities = np.array(escaped_velocities)
+
+# Momentum for each escaping particle
+def momentum_h_xyz(m_h, escaped_v):
+    return m_h*escaped_v
+
+# calculating teh veloocity for teh rochet using conservation of momentum (perfect elasticity)
+def velocity_r(m_r, p_r):
+    v_r= 0
+    for k in p_r:
+        v_r +=k/m_r
+    return v_r
+
+# function for calculating total force
+def calculate_force(momentum):
+    # Calculate the change in momentum
+    delta_p_x = sum(momentum[0])
+    delta_p_y = sum(momentum[1])
+    delta_p_z = sum(momentum[2])
+    
+    # Calculate the force using F = Δp/Δt
+    force_x = delta_p_x / time_step
+    force_y = delta_p_y / time_step
+    force_z = delta_p_z / time_step
+    
+    return force_x, force_y, force_z
+
+# Calculate the force
+force_x, force_y, force_z = calculate_force(momentum_h_xyz(hydrogen2_mass,escaped_velocities))
+print(f"Force in x-direction: {force_x} N")
+print(f"Force in y-direction: {force_y} N")
+print(f"Force in z-direction: {force_z} N")
+
