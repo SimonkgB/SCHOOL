@@ -3,6 +3,7 @@ import scipy.constants as scp_c
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import random
+from numba import jit
 
 #np.random.seed(2)
 
@@ -10,8 +11,8 @@ import random
 # CONSTANTS
 
 box_length =10e-6  # Length of the cubic box in meters
-temperature =3e3   # Temperature in Kelvin
-num_particles = 100 # number of particles
+temperature =8e3   # Temperature in Kelvin
+num_particles = 500 # number of particles
 boltzmann_constant =scp_c.Boltzmann  # Boltzmann constant in J/K
 hydrogen2_mass= 3.34e-27  # Mass of a particle in kg
 
@@ -57,15 +58,16 @@ def boundary_conditions(position, velocity, box_length, hole_radius, hole_center
    
     for i, pos in enumerate(position):   # Check for particles falling into the hole
         distance_to_center =np.linalg.norm(pos[:2] - hole_center)
-        if distance_to_center < hole_radius and pos[2] <=box_length: # Reset the position and velocity of the particle
-            hoe.append(position[i])
+        if distance_to_center < hole_radius and pos[2] <= 0: # Reset the position and velocity of the particle
+            hoe.append(position[i].copy())
+            escaped_velocities.append(velocity[i].copy())  #storing velocities of particles escaping
             position[i] = np.array([box_length/2, box_length/2, box_length])    # sett particle to "spawn" in the center of x-y plane and top of z-plane
             velocity[i] =setting_velocity(velocity_distribution(hydrogen2_mass))
             num +=1    #incrment particle counter
-            escaped_velocities.append(velocity[i].copy())  #storing velocities of particles escaping
+
     
-        index =np.where((position >box_length) | (position < 0)) # Reflective boundary conditions
-        velocity[index] *=-1
+    index =np.where((position >box_length) | (position < 0)) # Reflective boundary conditions
+    velocity[index] *=-1
     return position, velocity, num
 
 #################################
@@ -75,7 +77,7 @@ velocity =np.array([setting_velocity(velocity_distribution(hydrogen2_mass)) for 
 
 ######################
 # HOLE PROPPERTIES
-hole_radius =0.01*box_length  # radius of the hole in meters
+hole_radius = np.sqrt(((0.25*box_length**2)/np.pi))  # radius of the hole in meters
 hole_center =np.array([box_length/2, box_length/2])  # center of the hole
 
 ###############################
@@ -90,9 +92,10 @@ for index in range(2000):
     position +=velocity*time_step
     all_particle_trajectory[index] =position
     num_particles_in_hole +=num        # Update the total counter
-"""
+
 ########################
 # ANIMATION
+"""
 
 fig, (ax1, ax2) =plt.subplots(1, 2, figsize=(10, 5))
 
@@ -126,12 +129,11 @@ ani =animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity
 
 # SHOWTIME
 plt.tight_layout()
-plt.show()"""
+plt.show()
 
 # HOW MANY PARTICLES IN HOLE
 print(f"Total number of particles in hole: {num_particles_in_hole}")    # i can use this number to "create" a force which will propell teh rocket
-
-
+"""
 # Print the velocities of particles that escaped
 
 ##########################
@@ -139,16 +141,17 @@ print(f"Total number of particles in hole: {num_particles_in_hole}")    # i can 
 rocket_payload = 10
 rocket_engine = 3
 rocket_mass = rocket_engine + rocket_payload
-hydrogen2_mass= 3.34e-27
+
 escaped_velocities = np.array(escaped_velocities)
 
-#print(escaped_velocities[2])
+
 # Momentum for each escaping particle
-"""
+
 momentum_particles = np.sum(escaped_velocities * hydrogen2_mass, axis=0)
-print(f"partikkel fart:{momentum_particles[2]}")
-v_r = momentum_particles / rocket_mass
-print("Rocket Velocity:", v_r[2])
+momentum_rocket = -momentum_particles
+v_r = momentum_rocket / rocket_mass
+
+
 
 
 
@@ -163,19 +166,9 @@ def calculate_force(v_r):
     
     return np.array([force_x, force_y, force_z])
 
-
-print(f"kraft: {calculate_force(v_r)[2]}")
-
-ii = 0
-kk = 0
-
-for k in escaped_velocities:
-    if k[2]<0:
-        ii+=1
-    elif k[2]>0:
-        kk+=1
-print(ii,kk)
-
+fz = calculate_force(v_r)[2]
 """
-for k in hoe:
-    print(k[2])
+print(f"partikkel momentum: {momentum_particles}")
+print (f"rockets momentum: {momentum_rocket}")
+print("Rocket Velocity:", v_r[2])
+print(f"kraft: {calculate_force(v_r)[2]}")"""
