@@ -25,6 +25,12 @@ def calculate_force(v_r):
     
     return np.array([force_x, force_y, force_z])
 
+
+def massflow():
+    return cs.hydrogen2_mass*w.escaped_velocities.shape[0]/cs.totaltime
+print(massflow())
+
+
 fz = calculate_force(v_r)[2]
 
 """

@@ -10,6 +10,12 @@ import boundrary_conditions as b_c
 import velocities as velc
 import consts as cs
 
+
+import time
+
+start_time = time.time()
+
+
 #np.random.seed(2)
 
 #################################
@@ -83,3 +89,8 @@ plt.show()
 # HOW MANY PARTICLES IN HOLE
 print(f"Total number of particles in hole: {num_particles_in_hole}")    # i can use this number to "create" a force which will propell teh rocket
 """
+
+end_time = time.time()
+
+elapsed_time = end_time - start_time
+print(f"Elapsed time: {elapsed_time} seconds")
