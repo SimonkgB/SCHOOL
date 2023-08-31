@@ -10,6 +10,7 @@ import boundrary_conditions as b_c
 import consts as cs
 
 
+
 #np.random.seed(2)
 
 #################################
@@ -41,42 +42,34 @@ escaped_velocities = np.array(escaped_velocities)
 
 ########################
 # ANIMATION
+#3d animation with the particles
 """
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-fig, (ax1, ax2) =plt.subplots(1, 2, figsize=(10, 5))
+# create the animation
+def update(frame, position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, hydrogen2_mass):
+    position, velocity, _ =b_c.boundary_conditions(position, velocity, box_length, hole_radius, hole_center)# Update positions and apply boundary conditions
+    position +=velocity*cs.time_step
+    ax.clear()
+    ax.set_xlim(0, cs.box_length)
+    ax.set_ylim(0, cs.box_length)
+    ax.set_zlim(0, cs.box_length)
+    ax.set_xlabel("x-axis")
+    ax.set_ylabel("y-axis")
+    ax.set_zlabel("z-axis")
+    ax.set_title("Animation of the particles (3d)")
+    ax.scatter(position[:, 0], position[:, 1], position[:, 2], s=20)
+    return ax
+#also make a circle to show the hole in z= 0 and x, y= box_length/2
+theta = np.linspace(0, 2*np.pi, 100)
+x = cs.hole_radius*np.cos(theta) + cs.hole_center[0]
+y = cs.hole_radius*np.sin(theta) + cs.hole_center[1]
+ax.plot(x, y, cs.box_length/2, color="black")
 
-# "conditions" for first subplot (x-z plane)
-ax1.set_title("Animation of the particles (x-z plane)")
-ax1.set_xlabel("x-axis")
-ax1.set_ylabel("z-axis")
-sc1 =ax1.scatter(position[:, 0], position[:, 2], s=20)
-ax1.set_xlim(0, box_length)
-ax1.set_ylim(0, box_length)
 
-# "conditions" for the second subplot (x-y plane)
-ax2.set_title("Animation of the particles (x-y plane)")
-ax2.set_xlabel("x-axis")
-ax2.set_ylabel("y-axis")
-sc2 =ax2.scatter(position[:, 0], position[:, 1], s=20)
-ax2.set_xlim(0, box_length)
-ax2.set_ylim(0, box_length)
 
-def update(frame, position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, hydrogen2_mass):    # fix? lær deg animations din tulling, må være en bedre methode (raskere)
-    
-
-    position, velocity, _ =boundary_conditions(position, velocity, box_length, hole_radius, hole_center)# Update positions and apply boundary conditions
-    position +=velocity*time_step
-
-    # Update the scatter plots
-    sc1.set_offsets(np.column_stack((position[:, 0], position[:, 2])))
-    sc2.set_offsets(position[:, :2])
-
-ani =animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity, box_length, hole_radius, hole_center, temperature, boltzmann_constant, hydrogen2_mass), interval=20, repeat=False)
-
-# SHOWTIME
-plt.tight_layout()
+#then we create the animation
+ani = animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity, cs.box_length, cs.hole_radius, cs.hole_center, cs.temperature, cs.boltzmann_constant, cs.hydrogen2_mass), interval=20, repeat=False)
 plt.show()
-
-# HOW MANY PARTICLES IN HOLE
-print(f"Total number of particles in hole: {num_particles_in_hole}")    # i can use this number to "create" a force which will propell teh rocket
 """
