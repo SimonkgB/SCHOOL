@@ -5,13 +5,10 @@ import matplotlib.animation as animation
 
 
 import sys
-sys.path.append("C:/Users/simon/Dokumenter/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/1")  # Add the directory containing the script
+sys.path.append("C:/Users/simon/Dokumenter/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/1/FINISHED")  # Add the directory containing the script
 import boundrary_conditions as b_c
-import velocities as velc
 import consts as cs
 
-import time
-start_time = time.time()
 
 #np.random.seed(2)
 
@@ -39,13 +36,6 @@ for index in range(cs.num_time_steps):
 
 escaped_velocities = np.array(escaped_velocities)
 
-
-
-
-end_time = time.time()
-
-elapsed_time = end_time-start_time
-print(f"Elapsed time: {elapsed_time}")
 
 
 
