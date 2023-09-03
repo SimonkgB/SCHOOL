@@ -25,3 +25,6 @@ print('My spacecraft has a mass of {:g} kg and a cross-sectional area of {:g} m^
 if not mission.rocket_launched:
     print('I have not launched the rocket yet. Let us do something about that!')
     mission.launch_rocket()
+
+
+set_launch_parameters(thrust, mass_loss_rate, initial_fuel_mass, estimated_launch_duration, launch_position, time_of_launch)
