@@ -5,8 +5,9 @@ import ast2000tools.constants as ast_c
 import sys
 sys.path.append("C:/Users/simon/Dokumenter/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/1/FINISHED")  # Add the directory containing the script
 import goated as w 
-import rocket_calculations as r_c
+7+import rocket_calculations as r_cal
 import rocket_capabilities as r_cap
+import consts as cs
 
 import ast2000tools.utils as utils
 seed = utils.get_seed("simm")
@@ -25,6 +26,3 @@ print('My spacecraft has a mass of {:g} kg and a cross-sectional area of {:g} m^
 if not mission.rocket_launched:
     print('I have not launched the rocket yet. Let us do something about that!')
     mission.launch_rocket()
-
-
-set_launch_parameters(thrust, mass_loss_rate, initial_fuel_mass, estimated_launch_duration, launch_position, time_of_launch)

@@ -11,7 +11,7 @@ import consts as cs
 
 
 
-#np.random.seed(2)
+np.random.seed(2)
 
 #################################
 # INTIAL POSITION AND VELOCITY
