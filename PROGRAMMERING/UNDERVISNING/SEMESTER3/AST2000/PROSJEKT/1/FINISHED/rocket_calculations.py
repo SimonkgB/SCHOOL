@@ -20,6 +20,7 @@ def thrust(v_r):
     return np.array([force_x, force_y, force_z])
 
 
+
 def massflow():
     return cs.hydrogen2_mass*w.escaped_velocities.shape[0]/cs.totaltime # for n particles this will stay constant
 
@@ -35,11 +36,14 @@ def calculate_temperature_in_box(velocity):
 def pressure():
     return cs.num_particles/(cs.box_length**3)*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity) # as soon as a particle escape a new one replaces it with teh same velocity but a diffrent rvect
 
+
+
 def energy():
-    a1= 3/2*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity)
-    a2= 1/2*cs.hydrogen2_mass*np.sum(w.velocity**2)
+    a1= 1/2*cs.hydrogen2_mass*np.mean(np.sum(w.velocity**2, axis=1))
+    a2= 3/2*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity)
+
     return a1, a2
-print(f"using the formula for kinetic energy: {energy()[1]}, and using the formula with temperature: {energy()[0]}")
+print(f"using the formula for kinetic energy: {energy()[0]}, and using the formula with temperature: {energy()[1]}")
 
 
 
