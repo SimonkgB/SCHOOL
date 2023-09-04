@@ -22,10 +22,6 @@ def thrust(v_r):
 
 
 
-def massflow():
-    return cs.hydrogen2_mass*w.escaped_velocities.shape[0]/cs.totaltime # for n particles this will stay constant
-
-
 def calculate_temperature_in_box(velocity):
     kinetic_energy = 1/2*cs.hydrogen2_mass*np.sum(velocity**2, axis=1)
     avg_kinetic_energy =np.mean(kinetic_energy)
@@ -33,10 +29,8 @@ def calculate_temperature_in_box(velocity):
     return temperature
 
 
-
 def pressure():
     return cs.num_particles/(cs.box_length**3)*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity) # as soon as a particle escape a new one replaces it with teh same velocity but a diffrent rvect
-
 
 
 def energy():
@@ -45,24 +39,17 @@ def energy():
     return a1, a2
 
 
-
-
 def gravity0(mass, radius):
     return cs.Gc*mass/(radius**2)
 
+
 def escape_vel(mass, radius):
     return np.sqrt(2*(gravity0(mass, radius))*(radius))
-
-
 
 # n motors for ESCAPING THE PLANET       V_esc = F/m*t
 def n_motors(t_r_mass, time):
     return (escape_vel(cs.mass_p0, cs.radius_p0))*t_r_mass/(thrust(velocity_rocket)*time)
 
-
-
-
-import math
 
 def calculate_fuel_mass(deltaV, mDot, F, M):
     """
@@ -86,7 +73,15 @@ def calculate_fuel_mass(deltaV, mDot, F, M):
 
 total_thrust = thrust(velocity_rocket)[2]*n_motors(cs.rocket_payload, cs.time_to_v_esc)[2]
 print(total_thrust)
+
+def massflow():
+    return abs(total_thrust/np.mean(w.escaped_velocities[2])) # for n particles this will stay constant
+print(massflow())
+
 print(n_motors(cs.rocket_payload, cs.time_to_v_esc))
+
+
+
 fuel_mass = calculate_fuel_mass(escape_vel(cs.mass_p0, cs.radius_p0), massflow(), total_thrust, cs.rocket_payload)
 
 
@@ -100,7 +95,4 @@ print(f"The energy of teh system is: {energy()}")
 print(f"The velocity of teh rocket is {v_r[2]}]")
 
 print(f"kraft done by particles: {thrust(velocity_rocket)[2]}") 
-
-
-
 """
