@@ -5,8 +5,9 @@ import ast2000tools.constants as ast_c
 import sys
 sys.path.append("C:/Users/simon/Dokumenter/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/1/FINISHED")  # Add the directory containing the script
 import goated as w 
-import rocket_calculations as r_c
+7+import rocket_calculations as r_cal
 import rocket_capabilities as r_cap
+import consts as cs
 
 import ast2000tools.utils as utils
 seed = utils.get_seed("simm")

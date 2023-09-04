@@ -9,8 +9,8 @@ hydrogen2_mass= 3.34e-27  # Mass of a particle in kg
 Gc = scp_c.gravitational_constant
 
 rocket_payload = 10
-rocket_engine = 3
-rocket_mass = rocket_engine + rocket_payload
+rocket_fuel = 10
+rocket_mass = rocket_fuel + rocket_payload
 
 totaltime = 10e-9
 num_time_steps = 2000
@@ -35,3 +35,4 @@ home_planet_idx = 0 # The home planet always has index 0
 
 mass_p0 = system.masses[home_planet_idx]*ast_c.m_sun
 radius_p0 = system.radii[home_planet_idx]*1000
+radius_p0_au = utils.m_to_AU(radius_p0)
