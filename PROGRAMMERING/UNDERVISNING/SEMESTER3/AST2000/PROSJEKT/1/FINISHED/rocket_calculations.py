@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.constants as scp_c
 
 import sys
 sys.path.append("C:/Users/simon/Dokumenter/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/1/FINISHED")  # Add the directory containing the script
@@ -25,27 +24,29 @@ def massflow():
     return cs.hydrogen2_mass*w.escaped_velocities.shape[0]/cs.totaltime # for n particles this will stay constant
 
 
-def calculate_temperature_in_box(velocity ):
+def calculate_temperature_in_box(velocity):
     kinetic_energy = 1/2*cs.hydrogen2_mass*np.sum(velocity**2, axis=1)
     avg_kinetic_energy =np.mean(kinetic_energy)
     temperature =(2*avg_kinetic_energy)/(3*cs.boltzmann_constant)
     return temperature
-temperature_in_box =calculate_temperature_in_box(w.velocity)
+
 
 
 def pressure():
-    return cs.num_particles/(cs.box_length**3)*cs.boltzmann_constant*temperature_in_box # as soon as a particle escape a new one replaces it with teh same velocity but a diffrent rvect
+    return cs.num_particles/(cs.box_length**3)*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity) # as soon as a particle escape a new one replaces it with teh same velocity but a diffrent rvect
 
 def energy():
-        return 3/2*cs.boltzmann_constant*temperature_in_box
+    a1= 3/2*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity)
+    a2= 1/2*cs.hydrogen2_mass*np.sum(w.velocity**2)
+    return a1, a2
+print(f"using the formula for kinetic energy: {energy()[1]}, and using the formula with temperature: {energy()[0]}")
 
 
 
 
 
-
+print(f"The temperature of the system is {calculate_temperature_in_box(w.velocity)} K")
 """
-print(f"The temperature of the system is {temperature_in_box} K")
 print(f"The pressure of the system is: {pressure()}")
 print(f"The energy of teh system is: {energy()}")
 print(f"The velocity of teh rocket is {v_r[2]}]")

@@ -42,8 +42,7 @@ escaped_velocities = np.array(escaped_velocities)
 
 ########################
 # ANIMATION
-#3d animation with the particles
-"""
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
@@ -72,4 +71,3 @@ ax.plot(x, y, cs.box_length/2, color="black")
 #then we create the animation
 ani = animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity, cs.box_length, cs.hole_radius, cs.hole_center, cs.temperature, cs.boltzmann_constant, cs.hydrogen2_mass), interval=20, repeat=False)
 plt.show()
-"""
