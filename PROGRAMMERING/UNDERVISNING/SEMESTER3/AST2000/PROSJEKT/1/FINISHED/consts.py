@@ -3,14 +3,13 @@ import numpy as np
 
 box_length =10e-6  # Length of the cubic box in meters
 temperature =4e3   # Temperature in Kelvin
-num_particles = 500 # number of particles
+num_particles = 1000 # number of particles
 boltzmann_constant =scp_c.Boltzmann  # Boltzmann constant in J/K
 hydrogen2_mass= 3.34e-27  # Mass of a particle in kg
 Gc = scp_c.gravitational_constant
 
-rocket_payload = 10
-rocket_fuel = 10
-rocket_mass = rocket_fuel + rocket_payload
+rocket_payload = 400_000 # kg
+rocket_mass_fixed = 5_000_000 # kg
 
 totaltime = 10e-9
 num_time_steps = 2000
@@ -36,3 +35,4 @@ home_planet_idx = 0 # The home planet always has index 0
 mass_p0 = system.masses[home_planet_idx]*ast_c.m_sun
 radius_p0 = system.radii[home_planet_idx]*1000
 radius_p0_au = utils.m_to_AU(radius_p0)
+mass_sun = system.star_mass*ast_c.m_sun

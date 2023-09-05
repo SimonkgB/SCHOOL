@@ -60,15 +60,8 @@ def update(frame, position, velocity, box_length, hole_radius, hole_center, temp
     ax.set_title("Animation of the particles (3d)")
     ax.scatter(position[:, 0], position[:, 1], position[:, 2], s=20)
     return ax
-#also make a circle to show the hole in z= 0 and x, y= box_length/2
-theta = np.linspace(0, 2*np.pi, 100)
-x = cs.hole_radius*np.cos(theta) + cs.hole_center[0]
-y = cs.hole_radius*np.sin(theta) + cs.hole_center[1]
-ax.plot(x, y, cs.box_length/2, color="black")
 
-
-
-#then we create the animation
+# create the animation
 ani = animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity, cs.box_length, cs.hole_radius, cs.hole_center, cs.temperature, cs.boltzmann_constant, cs.hydrogen2_mass), interval=20, repeat=False)
 plt.show()
 """

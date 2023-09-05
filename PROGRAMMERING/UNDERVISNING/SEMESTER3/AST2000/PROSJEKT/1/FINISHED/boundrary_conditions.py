@@ -13,7 +13,6 @@ def velocity_distribution(temperature):
     sigma = np.sqrt((cs.boltzmann_constant * temperature) / (cs.hydrogen2_mass))
     return np.random.normal(0, sigma, (cs.num_particles, 3))
 
-velocity = velocity_distribution(cs.temperature)
 
 
 def setting_velocity():   
