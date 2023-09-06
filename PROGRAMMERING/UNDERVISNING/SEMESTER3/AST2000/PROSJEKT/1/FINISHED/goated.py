@@ -11,7 +11,7 @@ import consts as cs
 
 
 
-np.random.seed(2)
+np.random.seed()
 
 #################################
 # INTIAL POSITION AND VELOCITY
@@ -72,3 +72,29 @@ ax.plot(x, y, cs.box_length/2, color="black")
 ani = animation.FuncAnimation(fig, update, frames=2000, fargs=(position, velocity, cs.box_length, cs.hole_radius, cs.hole_center, cs.temperature, cs.boltzmann_constant, cs.hydrogen2_mass), interval=20, repeat=False)
 plt.show()
 """
+
+plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
+
+# Subplot 1
+plt.subplot(3, 1, 1)
+plt.hist(velocity[:, 0], bins=100)
+plt.title("Histogram of the escaped particles (X-component)")
+plt.xlabel("Velocity")
+plt.ylabel("Number of particles")
+
+# Subplot 2
+plt.subplot(3, 1, 2)
+plt.hist(escaped_velocities[:, 1], bins=100)
+plt.title("Histogram of the escaped particles (Y-component)")
+plt.xlabel("Velocity")
+plt.ylabel("Number of particles")
+
+# Subplot 3
+plt.subplot(3, 1, 3)
+plt.hist(escaped_velocities[:, 2], bins=100)
+plt.title("Histogram of the escaped particles (Z-component)")
+plt.xlabel("Velocity")
+plt.ylabel("Number of particles")
+
+plt.tight_layout()  # Ensures proper spacing between subplots
+plt.show()

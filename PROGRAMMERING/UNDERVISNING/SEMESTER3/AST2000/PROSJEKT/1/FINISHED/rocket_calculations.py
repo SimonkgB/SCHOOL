@@ -26,10 +26,9 @@ def massflow():
     return cs.hydrogen2_mass*w.escaped_velocities.shape[0]/cs.totaltime # for n particles this will stay constant
 
 
-def calculate_temperature_in_box(velocity):
-    kinetic_energy = 1/2*cs.hydrogen2_mass*np.sum(velocity**2, axis=1)
-    avg_kinetic_energy =np.mean(kinetic_energy)
-    temperature =(2*avg_kinetic_energy)/(3*cs.boltzmann_constant)
+def calculate_temperature_in_box():
+    kinetic_energy = 1/2*cs.hydrogen2_mass*np.mean(np.sum(w.velocity**2, axis=1))
+    temperature =(2*kinetic_energy)/(3*cs.boltzmann_constant)
     return temperature
 
 
@@ -40,6 +39,7 @@ def pressure():
 
 
 def energy():
+<<<<<<< Updated upstream
     a1= 1/2*cs.hydrogen2_mass*np.mean(np.sum(w.velocity**2, axis=1))
     a2= 3/2*cs.boltzmann_constant*calculate_temperature_in_box(w.velocity)
     return a1, a2
@@ -47,6 +47,13 @@ def energy():
 
 
 
+=======
+    a1= 1/2*cs.hydrogen2_mass*np.mean(np.linalg.norm(w.velocity, axis=1)**2)    # axis=1 means that we are summing the x,y and z all squard components so we dont need a for loop
+    a2= 3/2*cs.boltzmann_constant*calculate_temperature_in_box()
+    return a1, a2
+
+
+>>>>>>> Stashed changes
 def gravity0(mass, radius):
     return cs.Gc*mass/(radius**2)
 
@@ -55,6 +62,7 @@ def escape_vel(mass, radius):
 
 
 
+<<<<<<< Updated upstream
 # n motors for ESCAPING THE PLANET       V_esc = F/m*t
 def n_motors(t_r_mass, time):
     return (escape_vel(cs.mass_p0, cs.radius_p0))*t_r_mass/(thrust(velocity_rocket)*time)
@@ -82,6 +90,11 @@ def calculate_fuel_mass(deltaV, mDot, F, M):
     print("Exp(Exponent):", math.exp(exponent))
     
     fuel_mass = (1 - math.exp(exponent)) * M / math.exp(exponent)
+=======
+def calculate_fuel_mass(deltaV, v_exhaust, M):
+    exponent = -deltaV/v_exhaust
+    fuel_mass = M*math.exp(exponent)
+>>>>>>> Stashed changes
     return fuel_mass
 
 total_thrust = thrust(velocity_rocket)[2]*n_motors(cs.rocket_payload, cs.time_to_v_esc)[2]
@@ -103,4 +116,23 @@ print(f"kraft done by particles: {thrust(velocity_rocket)[2]}")
 
 
 
+<<<<<<< Updated upstream
 """
+=======
+
+total_thrust = thrust(w.escaped_velocities, cs.hydrogen2_mass, cs.totaltime)
+vel_wanted = np.array([total_thrust[0]/cs.rocket_mass_fixed*417,total_thrust[1]/cs.rocket_mass_fixed*417,escape_vel(cs.mass_p0, cs.radius_p0)]) # the velocity we want to reach at v_esc (x,y) is as is since we want 0 drif because of the exit of the aprticles in rockets
+avg_velocity = np.mean(np.linalg.norm(w.escaped_velocities, axis=1))
+escape_velocity = escape_vel(cs.mass_p0, cs.radius_p0)
+num_motors = n_motors(total_thrust, vel_wanted, cs.time_to_v_esc, cs.rocket_mass_fixed)
+calulated_mass = calculate_fuel_mass(escape_velocity, np.mean(w.escaped_velocities,axis=0)[2], cs.rocket_mass_fixed)
+
+mass_flow = massflow(total_thrust, avg_velocity)*num_motors
+total_thrust_2 = total_thrust[2]*num_motors[2]
+
+print(f"Total Thrust for one motor: {total_thrust}")
+print(f"Number of Motors: {num_motors}")
+print(f"Mass Flow: {mass_flow}")
+print(f"Total Thrust for all motors: {total_thrust_2}")
+print(f"mass: {calulated_mass}")
+>>>>>>> Stashed changes

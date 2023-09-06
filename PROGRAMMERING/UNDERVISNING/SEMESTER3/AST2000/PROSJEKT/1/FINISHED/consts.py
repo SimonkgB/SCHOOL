@@ -36,3 +36,7 @@ home_planet_idx = 0 # The home planet always has index 0
 mass_p0 = system.masses[home_planet_idx]*ast_c.m_sun
 radius_p0 = system.radii[home_planet_idx]*1000
 radius_p0_au = utils.m_to_AU(radius_p0)
+<<<<<<< Updated upstream
+=======
+mass_sun = system.star_mass*ast_c.m_sun
+>>>>>>> Stashed changes
