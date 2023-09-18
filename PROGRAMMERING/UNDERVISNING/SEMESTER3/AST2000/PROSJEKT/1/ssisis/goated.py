@@ -2,7 +2,7 @@ import numpy as np
 import scipy.constants as scp_c
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+from numba import njit
 
 import sys
 sys.path.append("C:/Users/simon/Skrivebord/ssisis")  # Add the directory containing the script
@@ -11,7 +11,7 @@ import consts as cs
 
 
 
-np.random.seed(2)
+np.random.seed()
 
 #################################
 # INTIAL POSITION AND VELOCITY
@@ -30,6 +30,7 @@ all_particle_trajectory =np.zeros((cs.num_time_steps, cs.num_particles, 3))
 
 ##########################
 # "EULER-CHROMER" 
+@njit
 for index in range(cs.num_time_steps):
     position, velocity, escaped_velocities =b_c.boundary_conditions(position, velocity, cs.box_length, cs.hole_radius, cs.hole_center)  # Apply boundary conditions and update positions
     position +=velocity*cs.time_step

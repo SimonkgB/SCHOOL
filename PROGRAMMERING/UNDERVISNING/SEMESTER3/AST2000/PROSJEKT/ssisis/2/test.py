@@ -6,15 +6,16 @@ import csv
 import os
 import pandas as pd
 
-sys.path.append("C:/Users/simon/Skrivebord/ssisis/1") 
+sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/1") 
 import consts as cs
 # Initialize solar system bodies
 # Each row represents a body: [mass (in solar masses), x (in AU), y (in AU), vx (in AU/yr), vy (in AU/yr)]
 
 bodies = cs.conditions
-p_star = bodies[0]
-p_big = bodies[4]
-bodies = np.vstack((p_star, p_big))
+#p_star = bodies[0]
+#p_big = bodies[4]
+#bodies = np.vstack((p_star, p_big))
+
 
 forces = np.zeros((bodies.shape[0], 2))
 
@@ -152,7 +153,7 @@ def plot_energy(df):
 
 
 # Usage example
-plot_energy(df)
+#plot_energy(df)
 # Usage example
 
 
