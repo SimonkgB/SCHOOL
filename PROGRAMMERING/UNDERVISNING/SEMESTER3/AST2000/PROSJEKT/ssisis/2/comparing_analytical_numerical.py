@@ -7,11 +7,11 @@ from numba import jit
 import matplotlib.pyplot as plt
 import sys
 
-sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/1") 
+sys.path.append("C:/Users/simon/Skrivebord/ssisis/1") 
 import consts as cs
 
-sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/2") 
-#import orbits as ob
+sys.path.append("C:/Users/simon/Skrivebord/ssisis/2") 
+import orbits as ob
 
 csv_file_name ="plotting_orbits_1.csv"
 initial_conditions =cs.initial_values  # Assuming this is a 2D array
@@ -19,8 +19,8 @@ num_planets =len(initial_conditions)
 
 
 @jit(nopython=True)
-def plot_analytical_solution(a, e, theta_0, num_points=1000):
-    theta = np.linspace(0, 2*np.pi, num_points)
+def plot_analytical_solution(a, e, theta_0):
+    theta = np.linspace(0, 2*np.pi, ob.N)
     r =a*(1-e**2)/(1+e*np.cos(theta+theta_0))
     x =r*np.cos(theta)
     y =r*np.sin(theta)
