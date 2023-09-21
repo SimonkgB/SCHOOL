@@ -4,7 +4,6 @@ import pandas as pd
 from numba import jit
 import matplotlib.pyplot as plt
 import sys
-import os
 
 sys.path.append("C:/Users/simon/Skrivebord/ssisis/1") 
 import consts as cs
@@ -12,13 +11,12 @@ import consts as cs
 
 G =cs.GAU
 M =cs.mass_sun
-dt =1e-03   # og dt 0.00000001
-years =cs.year*20    # 20 years  # /approx 1.28394067 1 year  INDEX = 128394067
+dt =1e-05   # og dt 0.00000001
+years =cs.year    # 20 years  # \approx 1.28394067 1 year  INDEX = 128394067
 N =int(years/dt)
-
 initial_conditions =cs.initial_values  # Assuming this is a 2D array
 num_planets =len(initial_conditions)
-csv_file_name ="plotting_orbits_1.csv"
+csv_file_name ="plotting_orbits_p0.csv"
 
 
 @jit(nopython=True)
@@ -59,13 +57,6 @@ def write_to_csv():
 
 
 
-if os.path.exists(csv_file_name):
-    print("CSV file exists. Plotting data.")
-    df =pd.read_csv(csv_file_name)
-
-else:
-    print("CSV file does not exist. Writing to csv.")
-    write_to_csv()
 
 
 """

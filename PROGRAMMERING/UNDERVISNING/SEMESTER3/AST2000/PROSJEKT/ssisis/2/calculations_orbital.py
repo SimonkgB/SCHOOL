@@ -68,12 +68,12 @@ def third_law(a, T):
     else:
         return False  
 
-
-
+def year_per_planet(major_axis,mass_planet):
+    return np.sqrt((4*np.pi**2 * major_axis**3)/(cs.GAU*(cs.mass_sun+mass_planet)))
+year_per_planet =year_per_planet(cs.a_axis, cs.mass_planets)
 
 # set r1, theta1, r2, theta2
 def kk(a,b):
-
     r1 = np.sqrt(df.iloc[a, 1]**2 + df.iloc[a, 2]**2)
     r2 = np.sqrt(df.iloc[b, 1]**2 + df.iloc[b, 2]**2)
 
@@ -82,7 +82,7 @@ def kk(a,b):
     return r1, r2, theta1, theta2
 
 dt = ob.dt
-k_0 = int((cs.year*20/dt)/20)   # 1 year in the whole systems dt
+k_0 = int((cs.year/dt))   # 1 year in the whole systems dt
 perhelion = int(k_0/2)
 aphelion = 0
 a_perhelion, b_perhelion = perhelion, perhelion+100
