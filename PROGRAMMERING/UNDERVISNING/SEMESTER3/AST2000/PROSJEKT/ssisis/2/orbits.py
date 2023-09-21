@@ -5,14 +5,14 @@ from numba import jit
 import matplotlib.pyplot as plt
 import sys
 
-sys.path.append("C:/Users/simon/Skrivebord/ssisis/1") 
+sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/1") 
 import consts as cs
 
 
 G =cs.GAU
 M =cs.mass_sun
 dt =1e-05   # og dt 0.00000001
-years =cs.year    # 20 years  # \approx 1.28394067 1 year  INDEX = 128394067
+years =cs.year    # 20 years  # /approx 1.28394067 1 year  INDEX = 128394067
 N =int(years/dt)
 initial_conditions =cs.initial_values  # Assuming this is a 2D array
 num_planets =len(initial_conditions)

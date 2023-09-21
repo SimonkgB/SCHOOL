@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # Define parameters
 i = 90  # Inclination angle in degrees
 Rs = 1.0  # Radius of the star in arbitrary units
-Rp = 0.1  # Radius of the planet in the same units as Rs
+Rp = 0.01  # Radius of the planet in the same units as Rs
 
 # Time array
 time = np.linspace(0, 1, 1000)  # Time in arbitrary units
@@ -19,10 +19,14 @@ transit_duration =transit_end-transit_start
 
 # Calculate the gradual change in brightness
 for t in np.arange(transit_start, transit_end, 0.01):
-    dt = np.abs(time-t)
-    change_factor =np.exp(-dt/(0.5 * transit_duration))
-    flux_during_transit =(Rs**2-Rp**2)/Rs**2
-    relative_flux -=change_factor*(1-flux_during_transit)
+    if Rs-Rp < np.abs(time):
+        relative_flux -= (Rs**2-Rp**2)/Rs**2
+    else:
+        dt = np.abs(time-t)
+        change_factor =np.exp(-dt/(0.5 * transit_duration))
+        flux_during_transit =(Rs**2-Rp**2)/Rs**2
+        relative_flux -=change_factor*(1-flux_during_transit)
+        
 
 # Add Gaussian noise
 noise_std_dev =1e-4  # Standard deviation of the Gaussian noise

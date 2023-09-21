@@ -58,6 +58,11 @@ initial_positions =np.transpose(system.initial_positions)  # Transpose to get a 
 initial_velocities =np.transpose(system.initial_velocities)    # Transpose to get a 3xn matrix for velocity
 initial_values =np.concatenate((initial_positions, initial_velocities), axis=1)   #merge the two matrices into one 6xn matrix
 
+radius_sun = system.star_radius*1000 # radius of the sun in m
+radius_sun = utils.m_to_AU(radius_sun) # radius of the sun in AU
+radius_p =system.radii*1000          # radius of the planet in m
+radius_p = utils.m_to_AU(radius_p)              # radius of the planet in AU
+print(radius_p)
 mass_sun =system.star_mass   # mass of the sun  
 mass_planets =system.masses  # mass of the planets
 # make into a matrix mass x y vx vy
@@ -85,5 +90,3 @@ color_dic = {
     6: "brown",
     7: "olive",
 }
-
-print(conditions)

@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 import sys
 import time
 
-sys.path.append("C:/Users/simon/Skrivebord/ssisis/1") 
+sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/1") 
 import consts as cs
 
-sys.path.append("C:/Users/simon/Skrivebord/ssisis/2") 
+sys.path.append("C:/Users/simon/OneDrive/Dokumenter/GitHub/SCHOOL/PROGRAMMERING/UNDERVISNING/SEMESTER3/AST2000/PROSJEKT/ssisis/2") 
 import orbits as ob
 
 start_time =time.time() 
